@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: medicio-hospital
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn medicio_project.wsgi
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: "medicio-hospital.onrender.com"
+  
+  - type: pserv
+    name: medicio-hospital-db
+    plan: free
+    ipAllowList: []
